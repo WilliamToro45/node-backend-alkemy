@@ -10,10 +10,6 @@ const Users = sequelize.define("Users", {
         required: true,
         validate: {
             notEmpty: false,
-            len:{
-                args: [5, 30],
-                msg: "Ingrese su username entres 5 y 30 caracteres"
-            },
             async validarUsername(value){
                 const username = await Users.findOne({where: {username: value}});
                 if (username) throw new Error("El usuario ya se encuetra registrado");
