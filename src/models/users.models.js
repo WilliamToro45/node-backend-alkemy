@@ -7,13 +7,30 @@ const Users = sequelize.define("Users", {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
-        required: true
+        required: true,
+        validate: {
+            notEmpty: false,
+            len:{
+                args: [5, 30],
+                msg: "Ingrese su username entres 5 y 30 caracteres"
+            },
+            async validarUsername(value){
+                const username = await Users.findOne({where: {username: value}});
+                if (username) throw new Error("El usuario ya se encuetra registrado");
+            }
+        },
+        set(value) {
+            this.setDataValue('username', value.toLowerCase());
+        }
     },
     password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(64),
         required: true,
+        allowNull: false,
         set(value) {
-            this.setDataValue('password', await bcrypt.hash(value, bcrypt.genSalt()))
+            const saltos = bcrypt.genSaltSync();
+            const pwd = bcrypt.hashSync(value, saltos);
+            this.setDataValue('password', pwd);
         }
     }
 })
