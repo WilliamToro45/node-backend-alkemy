@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db.connection');
+const useBcrypt = require('sequelize-bcrypt');
 
 const Users = sequelize.define("Users", {
     username: {
@@ -23,12 +24,20 @@ const Users = sequelize.define("Users", {
         type: DataTypes.STRING(64),
         required: true,
         allowNull: false,
-        set(value) {
+        /*set(value) {
             const saltos = bcrypt.genSaltSync();
             const pwd = bcrypt.hashSync(value, saltos);
             this.setDataValue('password', pwd);
-        }
+        }*/
     }
 })
+
+const options = {
+    field: 'password',
+    rounds: 12,
+    compare: 'authenticate'
+}
+
+useBcrypt(Users, options);
 
 module.exports = Users;
