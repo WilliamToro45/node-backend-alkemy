@@ -35,7 +35,7 @@ const Users = sequelize.define("Users", {
 
 const options = {
     field: 'password',
-    rounds: process.env.NUM_SALTOS,
+    rounds: process.env.NUM_SALTOS || 12,
     compare: 'authenticate'
 }
 
