@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db.connection');
 const useBcrypt = require('sequelize-bcrypt');
+require('dotenv').config();
 
 const Users = sequelize.define("Users", {
     username: {
@@ -34,7 +35,7 @@ const Users = sequelize.define("Users", {
 
 const options = {
     field: 'password',
-    rounds: 12,
+    rounds: process.env.NUM_SALTOS,
     compare: 'authenticate'
 }
 
