@@ -10,7 +10,7 @@ const Personajes =  sequelize.define("Personaje", {
         autoIncrement: true
     },
     imagen: {
-        type: DataTypes.STRING,
+        type: DataTypes.BLOB,
         allowNull: false 
     },
     nombre: {
@@ -34,15 +34,15 @@ const Personajes =  sequelize.define("Personaje", {
 //Personajes.hasMany(Peliculas);
 // Relaciones
 // Un personaje puede tener varias peliculas o series
-Personajes.hasMany(Peliculas, {
+//Personajes.hasMany(Peliculas, {
     // Especificar opciones como foreigmkey y sourceKey
-    foreignKey: 'idPersonaje',
-    sourceKey: 'id'
-})
-
+//    foreignKey: 'idPersonaje',
+//    sourceKey: 'id'
+//})
+/*
 Peliculas.belongsTo(Personajes, {
     foreignKey: 'idPersonaje',
     targetKey: 'id'
 })
-
+*/
 module.exports = Personajes;
