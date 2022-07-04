@@ -15,7 +15,7 @@ module.exports.obtenerGenero = async (req, res) => {
         const { id } = req.params;
         const genero = await Generos.findOne({where: {id}})
 
-        if(!genero) return res.status(404).json({message: "El genero solucicitado no existe"});
+        if(!genero) return res.status(404).json({mensaje: "El genero solucicitado no existe"});
         
         res.json(genero);
     } catch (error) {

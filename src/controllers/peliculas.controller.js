@@ -27,7 +27,7 @@ module.exports.obtenerPelicula = async (req, res) => {
     if (!pelicula)
       return res
         .status(404)
-        .json({ message: "Película o serie no encontrada" });
+        .json({ mensaje: "Película o serie no encontrada" });
 
     res.status(200).json(pelicula);
   } catch (error) {

@@ -22,7 +22,7 @@ module.exports.obtenerPersonaje = async (req, res) => {
     if (!personaje)
       return res
         .status(404)
-        .json({ message: "El personaje solicitado no existe." });
+        .json({ mensaje: "El personaje solicitado no existe." });
 
     res.json(personaje);
   } catch (error) {

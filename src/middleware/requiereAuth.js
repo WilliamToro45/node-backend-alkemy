@@ -13,14 +13,14 @@ const requireAuth = (req, res, next) => {
         
         jwt.verify(token, process.env.SECRET_KEY_JWT, (error, decodenToken) => {
             if (error) {
-                res.status(401).json({message: "Usuario no autorizado"})
+                res.status(401).json({mensaje: "Usuario no autorizado"})
             } else {
                 console.log(decodenToken);
                 next()
             }
         });   
     } else {
-        res.status(401).json({message: "No ha ingresado un token."});
+        res.status(401).json({mensaje: "No ha ingresado un token."});
     }
 }
 

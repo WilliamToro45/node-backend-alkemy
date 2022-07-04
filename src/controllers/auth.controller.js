@@ -21,7 +21,7 @@ module.exports.login = async (req, res) => {
             attributes: ["email", "password"],
         });
         
-        if(!user) return res.status(401).json({mesaage: "No autorizado"});
+        if(!user) return res.status(401).json({mensaje: "No autorizado"});
 
         //console.log(user.authenticate(password));
         
