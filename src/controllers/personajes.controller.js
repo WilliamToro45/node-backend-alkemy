@@ -4,7 +4,9 @@ const Personajes = require("../models/personajes.models");
 
 module.exports.obtenerPersonajes = async (req, res) => {
   try {
-    const consulta = await Personajes.findAll({attributes: ["imagen", "nombre"]});
+    const consulta = await Personajes.findAll({
+      attributes: ["imagen", "nombre"],
+    });
 
     res.status(200).json(consulta);
   } catch (error) {
@@ -55,26 +57,33 @@ module.exports.crearPersonaje = async (req, res) => {
 
 module.exports.actualizarPersonaje = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { imagen, nombre, edad, peso, historia, idPelicula } = req.body;
+    if (req.files) {
+      const { id } = req.params;
+      const { imagen } = req.files;
+      const { nombre, edad, peso, historia, idPelicula } = req.body;
 
-    const actualizar = await Personajes.update(
-      {
-        imagen,
-        nombre,
-        edad,
-        peso,
-        historia,
-        idPelicula,
-      },
-      {
-        where: { id },
-      }
-    );
-    res.status(202).json(actualizar);
+      const actualizar = await Personajes.update(
+        {
+          imagen,
+          nombre,
+          edad,
+          peso,
+          historia,
+          idPelicula,
+        },
+        {
+          where: { id },
+        }
+      );
+      res.status(202).json(actualizar);
+    } else {
+      res
+        .status(500)
+        .json({ mensaje: "No ha seleccionado un archivo de imagen." });
+    }
   } catch (error) {
     res.status(400).json(mensajesDeError(error.errors));
-  }
+  } 
 };
 
 module.exports.eliminarPersonaje = async (req, res) => {
@@ -92,11 +101,13 @@ module.exports.eliminarPersonaje = async (req, res) => {
 module.exports.obtenerDetallesPersonaje = async (req, res) => {
   try {
     const { id } = req.params;
-    
-    const detallesPersonaje = await Personajes.findOne({where: { id: id }});
-    const peliculas = await Peliculas.findAll({ where: { id: detallesPersonaje.idPelicula } });
-    console.log(peliculas)
-    res.status(200).json({detallesPersonaje, peliculas});
+
+    const detallesPersonaje = await Personajes.findOne({ where: { id: id } });
+    const peliculas = await Peliculas.findAll({
+      where: { id: detallesPersonaje.idPelicula },
+    });
+    console.log(peliculas);
+    res.status(200).json({ detallesPersonaje, peliculas });
   } catch (error) {
     res.status(500).json(mensajesDeError(error.errors));
   }
